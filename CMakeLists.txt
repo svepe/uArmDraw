@@ -108,7 +108,7 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(uarm_draw src/uarm_draw.cpp)
+add_executable(uarm_draw src/uarm_draw.cpp src/control_window.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

@@ -10,10 +10,9 @@
 #include <string>
 
 #include <serial/serial.h>
-#include <FL/Fl.H>
-#include <FL/Fl_Window.H>
 
-#include "uarm-draw.hpp"
+#include "control_window.hpp"
+#include "uarm_draw.hpp"
 
 using std::cout;
 using std::cerr;
@@ -47,13 +46,13 @@ int main() {
 
   uint8_t data[MESSEGE_LEN];
 
-  PoseToBytes(0, 100, 150, 45, NONE, data);
+  PoseToBytes(0, 0, 0, 45, NONE, data);
 
   u_arm.write(data, MESSEGE_LEN);
 
   u_arm.close();
 
-  Fl_Window b(20, 20, 400, 400, "Title for our window");
+  ControlWindow b(20, 20, 400, 400, "uArm Draw");
   b.show();
 
   while (true) {
