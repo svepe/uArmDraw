@@ -99,6 +99,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ./include
+  /usr/include
 )
 
 ## Declare a cpp library
@@ -117,6 +118,7 @@ add_executable(uArmDraw src/uArmDraw.cpp)
 target_link_libraries(uArmDraw
   ${catkin_LIBRARIES}
   ${OpenCV_LIBS}
+  fltk
 )
 
 #############

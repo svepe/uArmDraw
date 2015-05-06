@@ -10,6 +10,8 @@
 #include <string>
 
 #include <serial/serial.h>
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
 
 #include "uArmDraw.hpp"
 
@@ -50,5 +52,12 @@ int main() {
   u_arm.write(data, MESSEGE_LEN);
 
   u_arm.close();
+
+  Fl_Window b(20, 20, 400, 400, "Title for our window");
+  b.show();
+
+  while (true) {
+    Fl::wait(0.1); // Duration in seconds
+  }
   return 0;
 }
