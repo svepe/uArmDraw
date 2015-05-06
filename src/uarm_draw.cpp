@@ -13,7 +13,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 
-#include "uArmDraw.hpp"
+#include "uarm-draw.hpp"
 
 using std::cout;
 using std::cerr;
