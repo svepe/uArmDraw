@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   serial
+  roscpp
 )
 
 ## System dependencies are found with CMake's conventions
@@ -108,7 +109,7 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(uarm_draw src/uarm_draw.cpp src/control_window.cpp)
+add_executable(uarm_draw src/uarm_draw.cpp src/control_window.cpp src/uarm.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

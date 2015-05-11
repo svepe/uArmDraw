@@ -2,7 +2,8 @@
 * @Copyright: Copyright[2015]<Svetlin Penkov>
 *      @Date: 2015-05-06
 *     @Email: s.v.penkov@sms.ed.ac.uk
-*      @Desc: Add file description...
+*      @Desc: This class extends the Fl_Window in order to implement custom
+*             event handling
 */
 #ifndef CONTROL_WINDOW_HPP
 #define CONTROL_WINDOW_HPP

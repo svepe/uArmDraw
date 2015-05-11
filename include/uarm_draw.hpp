@@ -17,6 +17,7 @@
 #define HAND_ROTATION_MAX       (uint8_t)90
 
 #define MESSEGE_LEN             11
+
 enum GripperAction {
   NONE = 0x00,
   CATCH,

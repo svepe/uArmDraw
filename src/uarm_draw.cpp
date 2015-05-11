@@ -9,54 +9,46 @@
 #include <cstdint>
 #include <string>
 
-#include <serial/serial.h>
+#include <ros/ros.h>
+#include <sensor_msgs/Joy.h>
+
 
 #include "control_window.hpp"
-#include "uarm_draw.hpp"
+#include "joystick_control.hpp"
+#include "uarm.hpp"
 
 using std::cout;
 using std::cerr;
 using std::endl;
 using std::string;
 
-void PoseToBytes(uint16_t arm_rotation, uint16_t arm_stretch,
-                 uint16_t arm_height, uint16_t hand_rotation,
-                 GripperAction gripper_action, uint8_t* data) {
-  data[0] = 0xff;
-  data[1] = 0xaa;
-  data[2] = uint8_t((arm_rotation >> 8) & 0xff);
-  data[3] = uint8_t(arm_rotation & 0xff);
-  data[4] = uint8_t((arm_stretch >> 8) & 0xff);
-  data[5] = uint8_t(arm_stretch & 0xff);
-  data[6] = uint8_t((arm_height >> 8) & 0xff);
-  data[7] = uint8_t(arm_height & 0xff);
-  data[8] = uint8_t((hand_rotation >> 8) & 0xff);
-  data[9] = uint8_t(hand_rotation & 0xff);
-  data[10] = uint8_t(gripper_action);
-}
+int main(int argc, char** argv) {
+  // Init ROS
+  ros::init(argc, argv, "uarm");
+  ros::NodeHandle n("~");
 
-int main() {
-  string port = "/dev/ttyUSB0";
-  uint64_t baud = 9600;
+  // Create a default arm object
+  UArm uarm("/dev/ttyUSB0", 115200);
 
-  serial::Serial u_arm(port, baud, serial::Timeout::simpleTimeout(1000));
+  // Create a joystick object
+  JoystickControl joystick("/joy", n);
 
-  if (!u_arm.isOpen())
-    cerr << "Unable to open port "  << port << endl;
 
-  uint8_t data[MESSEGE_LEN];
+  // uarm.MoveToPose(0, 0, 0, 0, RELEASE);
 
-  PoseToBytes(0, 0, 0, 45, NONE, data);
+  ros::Rate rate(100);
+  while (ros::ok()) {
+    // Receive joystick values
+    ros::spinOnce();
 
-  u_arm.write(data, MESSEGE_LEN);
+    // Move with the corresponding velocities
+    uarm.MoveWithVelocities(joystick.arm_rot(), joystick.arm_stretch(),
+                            joystick.arm_height(), joystick.hand_rot(),
+                            (joystick.grasp()) ? GRASP : RELEASE);
 
-  u_arm.close();
 
-  ControlWindow b(20, 20, 400, 400, "uArm Draw");
-  b.show();
-
-  while (true) {
-    Fl::wait(0.1); // Duration in seconds
+    rate.sleep();
   }
+
   return 0;
 }
